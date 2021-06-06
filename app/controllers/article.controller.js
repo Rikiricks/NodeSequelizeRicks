@@ -1,4 +1,5 @@
 const db = require("../model");
+const {QueryTypes} = require("sequelize");
 const Article = db.articles;
 const Tag = db.tags;
 const Op = db.Sequelize.Op;
@@ -144,6 +145,17 @@ exports.findAllPublished = (req, res) => {
   };
 
   exports.search = async (req, res) => {
+  // const data = await db.sequelize.query("SELECT * FROM articles");
+
+  //  const data = await db.sequelize.query(
+  //     'SELECT * FROM articles WHERE published = :pub',
+  //     {
+  //       replacements: { pub: 5 },
+  //       type: QueryTypes.SELECT,
+  //     }
+  //   );
+
+    data.catch(err=>res.send({message: err.message}));
     const data = await Article.findAll({where: {
       title: {
       [Op.substring]: req.params.title
@@ -151,4 +163,4 @@ exports.findAllPublished = (req, res) => {
     }
     });
     res.send(data);
-  }
+  };
